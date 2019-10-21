@@ -128,38 +128,33 @@ object JdbcCRUD {
     return result
   }
 
-  def main(args: Array[String]): Unit = {
+//   def main(args: Array[String]): Unit = {
 
-//    // batch insert
-//    val sql:String = "INSERT INTO `scala_jdbc_test`(`name`, `age`, `address`) VALUES ( ?, ?, ?)"
-//    val dataType:List[String] = List("String", "Int", "String")
-//    var datas: List[List[String]] = List()
-//    for (i <- 0 to 10){
-//      val data: List[String] = List("name"+i, (20+i).toString, "place"+i)
-//      println(s"List${data}")
-//      datas = datas :+ data
-//    }
-//    datas = datas :+ List("anm", "a", "bbb")
-//    println(batchInsert(3,sql, datas, dataType))
+// //    // batch insert
+// //    val sql:String = "INSERT INTO `scala_jdbc_test`(`name`, `age`, `address`) VALUES ( ?, ?, ?)"
+// //    val dataType:List[String] = List("String", "Int", "String")
+// //    var datas: List[List[String]] = List()
+// //    for (i <- 0 to 10){
+// //      val data: List[String] = List("name"+i, (20+i).toString, "place"+i)
+// //      println(s"List${data}")
+// //      datas = datas :+ data
+// //    }
+// //    datas = datas :+ List("anm", "a", "bbb")
+// //    println(batchInsert(3,sql, datas, dataType))
 
-//    // search data
-//    val sql2:String = "select * from scala_jdbc_test"
-//    select(sql2, 4)
+// //    // search data
+// //    val sql2:String = "select * from scala_jdbc_test"
+// //    select(sql2, 4)
 
-    // create table
-//    val sql:String = "CREATE TABLE student " +
-//      "(id INTEGER not NULL, " +
-//      " first VARCHAR(255), " +
-//      " last VARCHAR(255), " +
-//      " age INTEGER, " +
-//      " PRIMARY KEY ( id ))";
-//
-//    println(createTable(sql))
-
-
-
-
-
-  }
+//     // create table
+// //    val sql:String = "CREATE TABLE student " +
+// //      "(id INTEGER not NULL, " +
+// //      " first VARCHAR(255), " +
+// //      " last VARCHAR(255), " +
+// //      " age INTEGER, " +
+// //      " PRIMARY KEY ( id ))";
+// //
+// //    println(createTable(sql))
+//   }
 
 }
