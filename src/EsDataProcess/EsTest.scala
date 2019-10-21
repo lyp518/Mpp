@@ -4,6 +4,8 @@ import java.io.PrintWriter
 import org.json4s._
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
+import java.text.SimpleDateFormat
+import java.util.Date
 
 object EsTest {
   def main(args: Array[String]): Unit = {
@@ -11,15 +13,15 @@ object EsTest {
     
     val mustConditions = Array[AbstractCondition]()
   
-    var Tag = ""
+    var Tag = "test"
     
     if(args.length==1){
       Tag = args(0)
     }
     
-    Deal_task_ippair_statistics(Tag, pagesize)
+    Deal_task_ippair_statistics(Tag, pagesize)//有数组
     Deal_task_port_statistics(Tag, pagesize)
-    Deal_task_ssl_cert_statistics(Tag, pagesize)
+    Deal_task_ssl_cert_statistics(Tag, pagesize)//Tag是数组？
     Deal_task_protocol_component_statistics(Tag, pagesize)
     Deal_task_connected_component(Tag, pagesize)
     Deal_task_isakmp_ipvendorpair_statistics(Tag, pagesize)
@@ -32,14 +34,14 @@ object EsTest {
     
   }
   
-  //有数组
+  
   def Deal_task_ippair_statistics(Tag: String,pagesize: Int){
     val searcher = new EsGetData
     var res = searcher.scrollSearch("task_ippair_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_ippair_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_ippair_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -82,8 +84,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_port_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_port_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_port_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -129,8 +131,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_ssl_cert_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_ssl_cert_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_ssl_cert_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -164,8 +166,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_protocol_component_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_protocol_component_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_protocol_component_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -208,8 +210,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_connected_component", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_connected_component-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_connected_component-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -249,8 +251,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_isakmp_ipvendorpair_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_isakmp_ipvendorpair_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_isakmp_ipvendorpair_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -280,11 +282,11 @@ object EsTest {
   
   def Deal_task_isakmp_vendor_statistics(Tag: String,pagesize: Int){
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_task_isakmp_vendor_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch("task_isakmp_vendor_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_task_isakmp_vendor_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_isakmp_vendor_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -320,8 +322,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_portpair_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_portpair_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_portpair_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -364,8 +366,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_ip_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_ip_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_ip_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -416,8 +418,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_ipportpair_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_ipportpair_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_ipportpair_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -458,8 +460,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_protocol_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_protocol_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_protocol_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -502,8 +504,8 @@ object EsTest {
     var res = searcher.scrollSearch("task_port_statistics", Tag , pagesize)
     var i = 0
     
-    val time1=System.currentTimeMillis()
-    val write = new PrintWriter("task_port_statistics-" + Tag + "-" + time1 + ".csv")
+    val time1= NowDate()
+    val write = new PrintWriter("task_port_statistics-" + time1 + ".csv")
     
     while (res._3>0){
       //println(res._3)
@@ -541,6 +543,13 @@ object EsTest {
     
     write.close()
     searcher.close
+  }
+  
+  def NowDate(): String = {
+    val now: Date = new Date()
+    val dateFormat: SimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss")
+    val date = dateFormat.format(now)
+    return date
   }
   
 }
