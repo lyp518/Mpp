@@ -11,11 +11,28 @@ object JdbcCRUD {
     * @param sql 创建数据表语句
     * @return 返回值判断是否成功，如果创建成功返回0， 否则返回-1
     */
-  def createTable(sql: String): Int ={
+  def createTable(sql: String): Int = {
     try{
       statement.executeUpdate(sql)
     }catch {
       case exception: Exception=>{
+        return -1
+      }
+    }
+  }
+
+
+  /**
+    * 删除数据表
+    * @param tableName 要删除的表的名称
+    * @return 返回值判断是否成功，如果删除成功返回0， 否则返回-1
+    */
+  def dropTable(tableName: String):Int = {
+    try{
+      statement.executeUpdate("DROP TABLE "+tableName)
+    }catch {
+      case exception: Exception=>{
+        println(exception.fillInStackTrace())
         return -1
       }
     }
@@ -129,32 +146,30 @@ object JdbcCRUD {
   }
 
 //   def main(args: Array[String]): Unit = {
-
-// //    // batch insert
-// //    val sql:String = "INSERT INTO `scala_jdbc_test`(`name`, `age`, `address`) VALUES ( ?, ?, ?)"
-// //    val dataType:List[String] = List("String", "Int", "String")
-// //    var datas: List[List[String]] = List()
-// //    for (i <- 0 to 10){
-// //      val data: List[String] = List("name"+i, (20+i).toString, "place"+i)
-// //      println(s"List${data}")
-// //      datas = datas :+ data
-// //    }
-// //    datas = datas :+ List("anm", "a", "bbb")
-// //    println(batchInsert(3,sql, datas, dataType))
-
-// //    // search data
-// //    val sql2:String = "select * from scala_jdbc_test"
-// //    select(sql2, 4)
-
-//     // create table
-// //    val sql:String = "CREATE TABLE student " +
-// //      "(id INTEGER not NULL, " +
-// //      " first VARCHAR(255), " +
-// //      " last VARCHAR(255), " +
-// //      " age INTEGER, " +
-// //      " PRIMARY KEY ( id ))";
-// //
-// //    println(createTable(sql))
+//
+//     //      create table
+//     val sqlo:String = "CREATE TABLE `scala_jdbc_test` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`name` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `age` tinyint(1) DEFAULT NULL, `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+//     println(createTable(sqlo))
+//
+//     // batch insert
+//     val sql:String = "INSERT INTO `scala_jdbc_test`(`name`, `age`, `address`) VALUES ( ?, ?, ?)"
+//     val dataType:List[String] = List("String", "Int", "String")
+//     var datas: List[List[String]] = List()
+//     for (i <- 0 to 10){
+//       val data: List[String] = List("name"+i, (20+i).toString, "place"+i)
+//       println(s"List${data}")
+//       datas = datas :+ data
+//     }
+//     datas = datas :+ List("anm", "a", "bbb")
+//     println(batchInsert(3,sql, datas, dataType))
+//
+//     // search data
+//     val sql2:String = "select * from scala_jdbc_test"
+//     select(sql2, 4)
+//
+//
+//
+//     println(dropTable("scala_jdbc_test"))
 //   }
 
 }
