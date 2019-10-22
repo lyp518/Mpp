@@ -22,6 +22,8 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.index.query.QueryBuilders
+import org.elasticsearch.index.query.QueryBuilder
+import org.elasticsearch.action.search.SearchResponse
 
 abstract class AbstractCondition {
   def jsonValue: JValue
@@ -59,11 +61,10 @@ class EsGetData {
   def scrollSearch(indexName: String,Tag: String, scrollSize: Int) = {
     val scroll = new Scroll(TimeValue.timeValueMinutes(5L))
     val searchRequest = new SearchRequest(indexName)
-    val searchSourceBuilder = new SearchSourceBuilder()        
+    val searchSourceBuilder = new SearchSourceBuilder()  
     val query = QueryBuilders.boolQuery()
-    if(Tag != ""){
-      query.must(QueryBuilders.matchQuery("Tag", Tag))
-    }
+    if(Tag!="")
+     query.must(QueryBuilders.matchPhraseQuery("Tag", Tag))
     searchSourceBuilder.query(query)    
     searchSourceBuilder.size(scrollSize) 
     searchRequest.scroll(scroll)
