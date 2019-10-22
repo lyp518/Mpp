@@ -145,31 +145,33 @@ object JdbcCRUD {
     return result
   }
 
-//   def main(args: Array[String]): Unit = {
-//
-//     //      create table
-//     val sqlo:String = "CREATE TABLE `scala_jdbc_test` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`name` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `age` tinyint(1) DEFAULT NULL, `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-//     println(createTable(sqlo))
-//
-//     // batch insert
-//     val sql:String = "INSERT INTO `scala_jdbc_test`(`name`, `age`, `address`) VALUES ( ?, ?, ?)"
-//     val dataType:List[String] = List("String", "Int", "String")
-//     var datas: List[List[String]] = List()
-//     for (i <- 0 to 10){
-//       val data: List[String] = List("name"+i, (20+i).toString, "place"+i)
-//       println(s"List${data}")
-//       datas = datas :+ data
-//     }
-//     datas = datas :+ List("anm", "a", "bbb")
-//     println(batchInsert(3,sql, datas, dataType))
-//
-//     // search data
-//     val sql2:String = "select * from scala_jdbc_test"
-//     select(sql2, 4)
-//
-//
-//
-//     println(dropTable("scala_jdbc_test"))
-//   }
+   def main(args: Array[String]): Unit = {
+
+     //      create table
+     println("create table")
+     val sqlo:String = "CREATE TABLE `scala_jdbc_test` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`name` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `age` tinyint(1) DEFAULT NULL, `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+     println(createTable(sqlo))
+
+     // batch insert
+     println("insert table")
+     val sql:String = "INSERT INTO `scala_jdbc_test`(`name`, `age`, `address`) VALUES ( ?, ?, ?)"
+     val dataType:List[String] = List("String", "Int", "String")
+     var datas: List[List[String]] = List()
+     for (i <- 0 to 10){
+       val data: List[String] = List("name"+i, (20+i).toString, "place"+i)
+       println(s"List${data}")
+       datas = datas :+ data
+     }
+     println(batchInsert(3,sql, datas, dataType))
+
+     println("search table")
+     // search data
+     val sql2:String = "select * from scala_jdbc_test"
+     select(sql2, 4)
+
+
+    println("drop table")
+     println(dropTable("scala_jdbc_test"))
+   }
 
 }
