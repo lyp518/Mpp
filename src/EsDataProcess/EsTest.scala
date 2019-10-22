@@ -13,7 +13,7 @@ object EsTest {
     
     val mustConditions = Array[AbstractCondition]()
   
-    var Tag = "test"
+    var Tag = ""
     
     if(args.length==1){
       Tag = args(0)
@@ -24,9 +24,9 @@ object EsTest {
     Deal_task_ssl_cert_statistics(Tag, pagesize)//Tag是数组？
     Deal_task_protocol_component_statistics(Tag, pagesize)
     Deal_task_connected_component(Tag, pagesize)
-    Deal_task_isakmp_ipvendorpair_statistics(Tag, pagesize)
-    Deal_task_isakmp_vendor_statistics(Tag, pagesize)
-    Deal_task_portpair_statistics(Tag, pagesize)
+    Deal_task_isakmp_ipvendorpair_statistics(Tag, pagesize)//Tag是数组
+    Deal_task_isakmp_vendor_statistics(Tag, pagesize)//Tag到pcap包，但是匹配时候仍然会匹配上
+    Deal_task_portpair_statistics(Tag, pagesize)//有数组
     Deal_task_ip_statistics(Tag, pagesize)
     Deal_task_ipportpair_statistics(Tag, pagesize)
     Deal_task_protocol_statistics(Tag, pagesize)
@@ -107,8 +107,8 @@ object EsTest {
         val sendPkts = (jValue\"sendPkts").values
         val recvPkts = (jValue\"recvPkts").values
         val usedIPCount = (jValue\"usedIPCount").values
-        val accessedIPCount = (jValue\"usedIPCount").values
-        val accessedPortCount = (jValue\"usedIPCount").values
+        val accessedIPCount = (jValue\"accessedIPCount").values
+        val accessedPortCount = (jValue\"accessedPortCount").values
         //val usedIPCount = (jValue\"usedIPCount").values
         
         val result1 = Tag + "," + componentID + "," + protocol + "," + topProtocol + "," + port + "," + bytes + "," + packets + ","
@@ -527,8 +527,8 @@ object EsTest {
         val sendPkts = (jValue\"sendPkts").values
         val recvPkts = (jValue\"recvPkts").values
         val usedIPCount = (jValue\"usedIPCount").values
-        val accessedIPCount = (jValue\"usedIPCount").values
-        val accessedPortCount = (jValue\"usedIPCount").values
+        val accessedIPCount = (jValue\"accessedIPCount").values
+        val accessedPortCount = (jValue\"accessedPortCount").values
         
         val result1 = Tag + "," + componentID + "," + protocol + "," + topProtocol + "," + port + "," + bytes + "," + packets + ","
         val result2 = sendBytes + "," + recvBytes + "," + sendPkts + "," + recvPkts + "," + usedIPCount + "," + accessedIPCount + "," + accessedPortCount
