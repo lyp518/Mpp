@@ -1,15 +1,18 @@
 package jdbc
 
 import java.sql.{Connection, DriverManager}
+import guinai.utils.Conf
 
-object ConnJdbc {
+object ConnJdbc extends Conf{
 
   private var connection: Connection = _
 
-  private val driver = "com.mysql.cj.jdbc.Driver"
-  private val url = "jdbc:mysql://hadoop102:3306/company?useUnicode=true&characterEncoding=utf-8&useSSL=false"
-  private val username = "root"
-  private val password = "123456"
+  private val driver = config.getString("jdbc.driver")
+  private val url = config.getString("jdbc.url")
+  private val username = config.getString("jdbc.username")
+  private val password = config.getString("jdbc.passowrd")
+  
+  
 
   /**
     * 创建mysql连接
