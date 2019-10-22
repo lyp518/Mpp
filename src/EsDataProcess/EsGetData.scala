@@ -39,7 +39,7 @@ class EsGetData {
     clearScrollRequest.addScrollId(scrollID)
     val clearScrollResponse = client.clearScroll(clearScrollRequest, RequestOptions.DEFAULT);
     val succeeded = clearScrollResponse.isSucceeded();
-    println("the result of release is: " + succeeded)
+    //println("the result of release is: " + succeeded)
   }
   @UnitTested
   def scorllSearch(scrollID: String) = {    
