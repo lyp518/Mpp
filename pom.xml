@@ -41,7 +41,7 @@
                          <mainClass>EsDataProcess.EsTest</mainClass>
                      </transformer>
                      <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                         <resource>application.conf</resource>
+                         <resource>mpp.conf</resource>
                      </transformer>
                  </transformers>
               </configuration>
