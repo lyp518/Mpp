@@ -73,6 +73,7 @@ object JdbcCRUD {
     var rem:Int = 0
     var successNum = 0   // 记录成功执行数据条数
     try{
+      ConnJdbc.conn().setAutoCommit(false);
       val ps: PreparedStatement = ConnJdbc.conn().prepareStatement(sql)
       for(oneData <- datas){
         rem += 1
@@ -90,12 +91,16 @@ object JdbcCRUD {
         ps.addBatch()
         if(rem==batchSize){
           ps.executeBatch()
+          ConnJdbc.conn().commit()
+          ps.clearBatch()
           successNum += rem
           rem = 0
         }
       }
       if(rem%batchSize!=0){
         ps.executeBatch()
+        ConnJdbc.conn().commit()
+        ps.clearBatch()
         successNum += rem
       }
       return successNum
