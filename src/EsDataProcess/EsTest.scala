@@ -10,28 +10,44 @@ import guinai.utils.Conf
 
 object EsTest {
   def main(args: Array[String]): Unit = {
-    val pagesize = ESUtils.pagesize  
+    val pagesize = ESUtils.pagesize 
     var Tag = "" 
-    if(args.length==1){
-      Tag = args(0)
+    if(args(0).equals("")){ 
+      Deal_task_ippair_statistics(Tag, pagesize)//有数组
+      Deal_task_port_statistics(Tag, pagesize)
+      Deal_task_protocol_component_statistics(Tag, pagesize)
+      Deal_task_connected_component(Tag, pagesize)
+      Deal_task_portpair_statistics(Tag, pagesize)
+      Deal_task_ip_statistics(Tag, pagesize)
+      Deal_task_ipportpair_statistics(Tag, pagesize)
+      Deal_task_protocol_statistics(Tag, pagesize)
+      Deal_task_port_component_statistics(Tag, pagesize)
     }
-    
-    Deal_task_ippair_statistics(Tag, pagesize)//有数组
-    Deal_task_port_statistics(Tag, pagesize)
-    Deal_task_protocol_component_statistics(Tag, pagesize)
-    Deal_task_connected_component(Tag, pagesize)
-    Deal_task_portpair_statistics(Tag, pagesize)
-    Deal_task_ip_statistics(Tag, pagesize)
-    Deal_task_ipportpair_statistics(Tag, pagesize)
-    Deal_task_protocol_statistics(Tag, pagesize)
-    Deal_task_port_component_statistics(Tag, pagesize)
-    
+    else{
+      val Tags = GetTags.readtxt(args(0))
+      for(i<- 0 until Tags.length){
+        Tag = Tags(i)
+         
+        Deal_task_ippair_statistics(Tag, pagesize)//有数组
+        Deal_task_port_statistics(Tag, pagesize)
+        Deal_task_protocol_component_statistics(Tag, pagesize)
+        Deal_task_connected_component(Tag, pagesize)
+        Deal_task_portpair_statistics(Tag, pagesize)
+        Deal_task_ip_statistics(Tag, pagesize)
+        Deal_task_ipportpair_statistics(Tag, pagesize)
+        Deal_task_protocol_statistics(Tag, pagesize)
+        Deal_task_port_component_statistics(Tag, pagesize)
+      } 
+    }
   }
   
   
   def Deal_task_ippair_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_ippair_statistics"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_ippair_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
     //val write = new PrintWriter("task_ippair_statistics" + time1 + ".csv")
@@ -45,8 +61,8 @@ object EsTest {
       for(j<- 0 until res._2.length){
         val jValue: JValue = parse(res._2(j))
         
-        val SrcPort = (jValue\"ipPair")(0).values.toString()
-        val DstPort = (jValue\"ipPair")(1).values.toString()
+        val SrcIP = (jValue\"ipPair")(0).values.toString()
+        val DstIP = (jValue\"ipPair")(1).values.toString()
         val recvBytes = (jValue\"recvBytes").values.toString()
         val recvPkts = (jValue\"recvPkts").values.toString()
         val sendBytes = (jValue\"sendBytes").values.toString()
@@ -66,7 +82,7 @@ object EsTest {
         val Tag = (jValue\"Tag").values.toString()
         val componentID = (jValue\"componentID").values.toString()
         
-        val data:List[String] = List(SrcPort,DstPort,recvBytes,recvPkts,sendBytes,sendPkts,srcPortsCount,dstPortsCount,strrsByteRate,strrsPktRate,Tag,componentID)
+        val data:List[String] = List(SrcIP,DstIP,recvBytes,recvPkts,sendBytes,sendPkts,srcPortsCount,dstPortsCount,strrsByteRate,strrsPktRate,Tag,componentID)
         datas = datas :+ data
 //        val result1 = SrcPort + "," + DstPort + "," + recvBytes + "," + recvPkts + "," + sendBytes + "," + sendPkts + ","
 //        val result2 = /*srcPorts + "," + dstPorts + "," +*/ rsByteRate + "," + rsPktRate + "," + Tag + "," + componentID
@@ -75,7 +91,7 @@ object EsTest {
 //        write.println(result)
       }
       val sql ="""INSERT INTO `task_ippair_statistics`
-        (`SrcPort`,`DstPort`,`recvBytes`,`recvPkts`,`sendBytes`,`sendPkts`,`srcPortsCount`,`dstPortsCount`,
+        (`SrcIP`,`DstIP`,`recvBytes`,`recvPkts`,`sendBytes`,`sendPkts`,`srcPortsCount`,`dstPortsCount`,
         `rsByteRate`,`rsPktRate`,`Tags`,`componentID`)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"""
         
@@ -90,8 +106,11 @@ object EsTest {
   }
   
   def Deal_task_port_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_port_statistics"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_port_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
  //   val write = new PrintWriter("task_port_statistics" + time1 + ".csv")
@@ -174,8 +193,11 @@ object EsTest {
 //  }
 //  
   def Deal_task_protocol_component_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_protocol_component_statistics"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_protocol_component_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
     //val write = new PrintWriter("task_protocol_component_statistics" + time1 + ".csv")
@@ -223,8 +245,11 @@ object EsTest {
   }
   
   def Deal_task_connected_component(Tag: String,pagesize: Int){
+    val tablename = "task_connected_component"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_connected_component", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
 //    val write = new PrintWriter("task_connected_component" + time1 + ".csv")
@@ -331,8 +356,11 @@ object EsTest {
 //  }
 
   def Deal_task_portpair_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_portpair_statistics"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_portpair_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
  //   val write = new PrintWriter("task_portpair_statistics" + time1 + ".csv")
@@ -390,8 +418,11 @@ object EsTest {
   }
   
   def Deal_task_ip_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_ip_statistics"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_ip_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
 //    val write = new PrintWriter("task_ip_statistics" + time1 + ".csv")
@@ -407,12 +438,36 @@ object EsTest {
         val ip = (jValue\"ip").values.toString()
         val componentID = (jValue\"componentID").values.toString()
         val ipType = (jValue\"ipType").values.toString()
-        val country = (jValue\"country").values.toString()
-        val city = (jValue\"city").values.toString()
-        val connectionType = (jValue\"connectionType").values.toString()
-        val domain = (jValue\"domain").values.toString()
-        val isp = (jValue\"isp").values.toString()
-        val netSeg = (jValue\"netSeg").values.toString()
+        val country = (jValue\"country").values
+        var strcountry:String = ""
+        if(country!=null){
+          strcountry = country.toString()
+        }
+        val city = (jValue\"city").values
+        var strcity:String = ""
+        if(city!=null){
+          strcity = city.toString()
+        }
+        val connectionType = (jValue\"connectionType").values
+        var strconnectionType:String = ""
+        if(connectionType!=null){
+          strconnectionType = connectionType.toString()
+        }
+        val domain = (jValue\"domain").values
+        var strdomain:String = ""
+        if(domain!=null){
+          strdomain = domain.toString()
+        }
+        val isp = (jValue\"isp").values
+        var strisp:String = ""
+        if(isp!=null){
+          strisp = isp.toString()
+        }
+        val netSeg = (jValue\"netSeg").values
+        var strnetSeg:String = ""
+        if(netSeg!=null){
+          strnetSeg = netSeg.toString()
+        }
         val sendBytes = (jValue\"sendBytes").values.toString()
         val recvBytes = (jValue\"recvBytes").values.toString()
         val sendPkts = (jValue\"sendPkts").values.toString()
@@ -423,7 +478,7 @@ object EsTest {
         val protocolCount = (jValue\"protocolCount").values.toString()
         val topProtocolCount = (jValue\"topProtocolCount").values.toString()
         
-        val data:List[String] = List(Tag,ip,componentID,ipType,country,city,connectionType,domain,isp,netSeg,sendBytes,recvBytes,sendPkts,recvPkts,relatedIPCount,usedPortCount,accessedPortCount,protocolCount,topProtocolCount)
+        val data:List[String] = List(Tag,ip,componentID,ipType,strcountry,strcity,strconnectionType,strdomain,strisp,strnetSeg,sendBytes,recvBytes,sendPkts,recvPkts,relatedIPCount,usedPortCount,accessedPortCount,protocolCount,topProtocolCount)
         datas = datas :+ data
 //        val result1 = Tag + "," + ip + "," + componentID + "," + ipType + ","  + country + "," + city + "," +connectionType + ","
 //        val result2 = domain + "," + isp + "," +netSeg + "," + sendBytes + "," + recvBytes + "," + sendPkts + "," + recvPkts + ","
@@ -447,8 +502,11 @@ object EsTest {
   }
   
   def Deal_task_ipportpair_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_ipportpair_statistics"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_ipportpair_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
  //   val write = new PrintWriter("task_ipportpair_statistics" + time1 + ".csv")
@@ -495,7 +553,7 @@ object EsTest {
       }
       val sql ="""INSERT INTO `task_ipportpair_statistics`
         (`SrcIP`,`SrcPort`,`DstIP`,`DstPort`,`recvBytes`,`recvPkts`,`sendBytes`,`sendPkts`,
-        `rsByteRate`,`rsPktRate`,`Tag`,`componentID`)
+        `rsByteRate`,`rsPktRate`,`Tags`,`componentID`)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?)"""
         
       jdbc.JdbcCRUD.batchInsert(res._3,sql,datas,dataType)
@@ -509,8 +567,11 @@ object EsTest {
   }
   
   def Deal_task_protocol_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_protocol_statistics"
+    DeleteTag(tablename,Tag)
+    
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_protocol_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
 //    val write = new PrintWriter("task_protocol_statistics" + time1 + ".csv")
@@ -557,13 +618,20 @@ object EsTest {
     searcher.close
   }
   
-  def Deal_task_port_component_statistics(Tag: String,pagesize: Int){
+  /**
+ * @param Tag
+ * @param pagesize
+ */
+def Deal_task_port_component_statistics(Tag: String,pagesize: Int){
+    val tablename = "task_port_component_statistics"
+    DeleteTag(tablename,Tag)
+  
     val searcher = new EsGetData
-    var res = searcher.scrollSearch("task_port_component_statistics", Tag , pagesize)
+    var res = searcher.scrollSearch(tablename, Tag , pagesize)
     var i = 0
     val time1= NowDate()
 //    val write = new PrintWriter("task_port_component_statistics" + time1 + ".csv")
-    val dataType:List[String] = List("String","Long","String","String","Long","Long","Long","Long","Long","Long","Long","Long")
+    val dataType:List[String] = List("String","Long","String","String","Long","Long","Long","Long","Long","Long","Long","Long","Long","Long")
     while (res._3>0){
       println(i)
       i = i + 1
@@ -613,7 +681,10 @@ object EsTest {
     val now: Date = new Date()
     val dateFormat: SimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss")
     val date = dateFormat.format(now)
-    return date
+    date
   }
   
+  def DeleteTag(tablename:String,tag:String){
+    //调用删除表数据的接口，将tablename和tag传过去
+  }
 }
