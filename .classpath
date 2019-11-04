@@ -16,6 +16,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/software/eclipse-scala/plugins/org.scala-lang.scala-compiler_2.12.3.v20170725-052526-VFINAL-6ac6da8.jar"/>
+	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_COMPILER_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -37,6 +37,34 @@ object JdbcCRUD {
       }
     }
   }
+  
+  /**
+   * @param tableName 要删除数据的表
+   * @param conditions 删除数据的条件，满足条件则删除
+   * 删除数据
+   */
+  def delete(tableName: String, conditions: String=null):Unit = {
+    var sql: String = s"DELETE FROM ${tableName} "
+    if(conditions != null){
+      sql += s"WHERE ${conditions}"
+    }else{
+      throw new Exception("删除条件为空，请查询删除函数中的条件参数是否传递错误")
+    }
+//    if(conditions.length>0){
+//      sql += s"WHERE ${conditions(0)}"
+//      for(i <- 1 until conditions.length)
+//        sql += s" AND ${conditions(i)}"
+//    }
+    println(sql)
+    try{
+      statement.executeUpdate(sql)
+    }catch{
+      case exception: Exception=>{
+        println(exception.fillInStackTrace())
+      }
+    }
+  }
+  
 
   /**
     * 单条插入数据，直接写sql，没有填充步骤
@@ -116,21 +144,28 @@ object JdbcCRUD {
   /**
     * 查询语句
     *
-    * @param sql 传入sql语句，比如"select * from scala_jdbc_test"
-    * @param columnNum 传入一共有多少列，因为要循环从中读出，所以一定要写
+    * @param tableName 要查询的表名"
+    * @param columns 要查询的列组成的list，比如List(age, name)，如果全查，可以不填，默认为*
+    * @param conditions 要查询的条件，默认为null也就是全查
     * @return 返回查询结果，所有的列返回的都是String类型，用时可以自己转换
-    * @example val sql2:String = "select * from scala_jdbc_test"
-    *          select(sql2, 4)
+    * @example select("scala_jdbc_test", List("age", "name"), "id>5")
     */
-  def select(sql: String, columnNum: Int): List[List[String]] = {
+  def select(tableName: String, columns: List[String]=List("*"), conditions: String=null): List[List[String]] = {
+    
     var result: List[List[String]] = List()
     try{
+      var sql = s"SELECT ${columns.mkString(",")} FROM ${tableName}"
+      if(conditions!=null){
+        sql += s" WHERE ${conditions}"
+      }
       val res: ResultSet = statement.executeQuery(sql)
-
+      val columnNum: Int = res.getMetaData.getColumnCount
       while (res.next) {
         var oneData: List[String] = List()
+        
         for (i <- 0 until columnNum){
           oneData = oneData :+ res.getString(i+1)
+          
         }
         println(oneData)
         result = result :+ oneData
@@ -152,7 +187,7 @@ object JdbcCRUD {
   }
 
 //   def main(args: Array[String]): Unit = {
-//
+
 //     //      create table
 //     val sqlo:String = "CREATE TABLE `scala_jdbc_test` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT,`name` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `age` tinyint(1) DEFAULT NULL, `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 //     println(createTable(sqlo))
@@ -166,15 +201,27 @@ object JdbcCRUD {
 //       println(s"List${data}")
 //       datas = datas :+ data
 //     }
-//     datas = datas :+ List("anm", "a", "bbb")
 //     println(batchInsert(3,sql, datas, dataType))
-//
+
 //     // search data
 //     val sql2:String = "select * from scala_jdbc_test"
 //     select(sql2, 4)
-//
-//
-//
+     
+     
+//     val sql2:String = "select * from scala_jdbc_test"
+//     select("scala_jdbc_test", List("age", "name"), "id>5")
+     
+     
+//     println("----------------------------------------------------------")
+//     
+//     delete("scala_jdbc_test", "age=21 or age>28")
+//     
+//     println("----------------------------------------------------------")
+//     
+//     select(sql2)
+
+
+
 //     println(dropTable("scala_jdbc_test"))
 //   }
 
