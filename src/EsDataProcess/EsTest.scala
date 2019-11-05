@@ -9,38 +9,40 @@ import java.util.Date
 import guinai.utils.Conf
 
 object EsTest {
-//  def main(args: Array[String]): Unit = {
-//    val pagesize = ESUtils.pagesize 
-//    var Tag = "" 
-//    if(args(0).equals("")){ 
-//      Deal_task_ippair_statistics(Tag, pagesize)//有数组
-//      Deal_task_port_statistics(Tag, pagesize)
-//      Deal_task_protocol_component_statistics(Tag, pagesize)
-//      Deal_task_connected_component(Tag, pagesize)
-//      Deal_task_portpair_statistics(Tag, pagesize)
-//      Deal_task_ip_statistics(Tag, pagesize)
-//      Deal_task_ipportpair_statistics(Tag, pagesize)
-//      Deal_task_protocol_statistics(Tag, pagesize)
-//      Deal_task_port_component_statistics(Tag, pagesize)
-//    }
-//    else{
-//      val Tags = GetTags.readtxt(args(0))
-//      for(i<- 0 until Tags.length){
-//        Tag = Tags(i)
-//         
-//        Deal_task_ippair_statistics(Tag, pagesize)//有数组
-//        Deal_task_port_statistics(Tag, pagesize)
-//        Deal_task_protocol_component_statistics(Tag, pagesize)
-//        Deal_task_connected_component(Tag, pagesize)
-//        Deal_task_portpair_statistics(Tag, pagesize)
-//        Deal_task_ip_statistics(Tag, pagesize)
-//        Deal_task_ipportpair_statistics(Tag, pagesize)
-//        Deal_task_protocol_statistics(Tag, pagesize)
-//        Deal_task_port_component_statistics(Tag, pagesize)
-//      } 
-//    }
-//  }
-//  
+  def main(args: Array[String]): Unit = {
+    val pagesize = ESUtils.pagesize 
+    var Tag = "" 
+    if(args.length == 0){ 
+      Deal_task_ippair_statistics(Tag, pagesize)//有数组
+      Deal_task_port_statistics(Tag, pagesize)
+      Deal_task_protocol_component_statistics(Tag, pagesize)
+      Deal_task_connected_component(Tag, pagesize)
+      Deal_task_portpair_statistics(Tag, pagesize)
+      Deal_task_ip_statistics(Tag, pagesize)
+      Deal_task_ipportpair_statistics(Tag, pagesize)
+      Deal_task_protocol_statistics(Tag, pagesize)
+      Deal_task_port_component_statistics(Tag, pagesize)
+    }
+    else{
+      val Tags = GetTags.readtxt(args(0))
+      for(i<- 0 until Tags.length){
+        if(Tags(i).equals("")!=true){
+          Tag = Tags(i)
+         
+          Deal_task_ippair_statistics(Tag, pagesize)//有数组
+          Deal_task_port_statistics(Tag, pagesize)
+          Deal_task_protocol_component_statistics(Tag, pagesize)
+          Deal_task_connected_component(Tag, pagesize)
+          Deal_task_portpair_statistics(Tag, pagesize)
+          Deal_task_ip_statistics(Tag, pagesize)
+          Deal_task_ipportpair_statistics(Tag, pagesize)
+          Deal_task_protocol_statistics(Tag, pagesize)
+          Deal_task_port_component_statistics(Tag, pagesize)
+        }
+      } 
+    }
+  }
+  
   
   def Deal_task_ippair_statistics(Tag: String,pagesize: Int){
     val tablename = "task_ippair_statistics"
@@ -686,5 +688,7 @@ def Deal_task_port_component_statistics(Tag: String,pagesize: Int){
   
   def DeleteTag(tablename:String,tag:String){
     //调用删除表数据的接口，将tablename和tag传过去
+    val conditions = "Tags="+tag
+    jdbc.JdbcCRUD.delete(tablename,conditions);
   }
 }
