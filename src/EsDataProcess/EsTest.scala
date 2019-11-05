@@ -6,7 +6,6 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import java.text.SimpleDateFormat
 import java.util.Date
-import guinai.utils.Conf
 
 object EsTest {
   def main(args: Array[String]): Unit = {
@@ -27,6 +26,7 @@ object EsTest {
       val Tags = GetTags.readtxt(args(0))
       for(i<- 0 until Tags.length){
         if(Tags(i).equals("")!=true){
+          println(Tags(i))
           Tag = Tags(i)
          
           Deal_task_ippair_statistics(Tag, pagesize)//有数组

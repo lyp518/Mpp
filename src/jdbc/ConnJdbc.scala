@@ -1,16 +1,16 @@
 package jdbc
 
 import java.sql.{Connection, DriverManager}
-import guinai.utils.Conf
+import EsDataProcess.ESUtils
 
-object ConnJdbc extends Conf{
+object ConnJdbc{
 
   private var connection: Connection = _
 
-  private val driver = config.getString("jdbc.driver")
-  private val url = config.getString("jdbc.url")
-  private val username = config.getString("jdbc.username")
-  private val password = config.getString("jdbc.passowrd")
+  private val driver = ESUtils.driver
+  private val url = ESUtils.url
+  private val username = ESUtils.username
+  private val password = ESUtils.password
   
   
 

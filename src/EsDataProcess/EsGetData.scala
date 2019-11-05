@@ -8,17 +8,13 @@ import org.elasticsearch.script.mustache.SearchTemplateRequest
 import org.elasticsearch.action.search.SearchRequest
 import org.elasticsearch.script.ScriptType
 import org.elasticsearch.client.RequestOptions
-import java.util.HashMap
 import org.elasticsearch.client.RestHighLevelClient
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.elasticsearch.action.search.SearchScrollRequest
 import org.elasticsearch.action.search.ClearScrollRequest
 import org.elasticsearch.search.Scroll
 import org.elasticsearch.common.unit.TimeValue
-import org.apache.logging.log4j.LogManager
 import org.json4s._
 import org.json4s.JsonAST.JValue
-import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 import org.elasticsearch.search.builder.SearchSourceBuilder
 import org.elasticsearch.index.query.QueryBuilders
@@ -30,10 +26,7 @@ abstract class AbstractCondition {
   def json: String = compact(render(jsonValue))
 }
 
-class EsGetData {
-  
-  private val log = LogManager.getLogger(this.getClass.getName())  
-  
+class EsGetData {  
   val client = getConnection
   @UnitTested
   def clearScroll(scrollID: String) = {
@@ -53,7 +46,6 @@ class EsGetData {
     var hits = searchResponse.getHits.getHits  
     //println(hits.toBuffer);
     //println(searchResponse.getHits.getTotalHits.value)
-    log.debug(s"ES scroll $scrollID search returns searchResponse.getHits.getTotalHits.value data")
     (scrollId, hits.map(_.getSourceAsString),hits.length)
   }
   
@@ -86,6 +78,7 @@ class EsGetData {
     })
     new RestHighLevelClient(RestClient.builder(map:_*))                
   }
+
   
   def close = client.close
 }

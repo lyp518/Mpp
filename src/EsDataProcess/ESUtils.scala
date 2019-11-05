@@ -1,10 +1,15 @@
 package EsDataProcess
 
-import guinai.utils.Conf
+import com.typesafe.config.{Config, ConfigFactory}
+import java.io.File
 
-object ESUtils extends Conf{
+object ESUtils{
+  val config: Config = ConfigFactory.load("MppConfig.conf")
   val esHttpPort = config.getString("elasticsearch.clusterHttpURI")
-  val alias_suffix = config.getString("elasticsearch.alias_suffix")
   val pagesize = config.getInt("elasticsearch.pagesize")
-  val search_suffix = """-*"""
+  
+  val driver = config.getString("jdbc.driver")
+  val url = config.getString("jdbc.url")
+  val username = config.getString("jdbc.username")
+  val password = config.getString("jdbc.passowrd")
 }

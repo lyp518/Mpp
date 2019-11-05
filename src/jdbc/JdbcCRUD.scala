@@ -4,7 +4,7 @@ import java.sql.{PreparedStatement, ResultSet, Statement}
 
 object JdbcCRUD {
 
-  val statement: Statement = null//ConnJdbc.conn().createStatement
+  val statement: Statement = ConnJdbc.conn().createStatement
 
   /**
     * 创建数据表
